@@ -9,6 +9,10 @@ public class IniciarJuegoCommand extends Command {
         return juegoId;
     }
 
+    public IniciarJuegoCommand(String juegoId) {
+        this.juegoId = juegoId;
+    }
+
     public void setJuegoId(String juegoId) {
         this.juegoId = juegoId;
     }
