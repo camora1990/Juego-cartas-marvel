@@ -1,0 +1,64 @@
+<div class="create-card">
+  <div class="container">
+    <app-nav-bar></app-nav-bar>
+    <div class="grid flex justify-content-center mt-5">
+      <div class="col md:col-8 xl:col-6">
+        <p-card header="Select players" class="text-center opacity-80">
+          <ng-template pTemplate="header">
+            <div class="p-2 text-left">
+              <app-logo></app-logo>
+            </div>
+          </ng-template>
+          <form id="formUsers" [formGroup]="formUsers">
+            <p-listbox
+              [options]="users"
+              formControlName="user"
+              aria-placeholder="Search user"
+              [metaKeySelection]="true"
+              [checkbox]="true"
+              [filter]="true"
+              [multiple]="true"
+              optionLabel="displayName"
+              [listStyle]="{ 'max-height': '250px' }"
+              filterPlaceHolder="Search user"
+              filterBy="displayName, email"
+              optionDisabled="disable"
+            >
+              <ng-template let-user pTemplate="item">
+                <div
+                  class="w-full country-item flex justify-content-between flex-wrap"
+                >
+                  <div class="flex align-items-center">
+                    <div class="image-user">
+                      <img [src]="user.photoURL" alt="user" />
+                    </div>
+                    <div class="ml-2">
+                      {{ user.displayName | titlecase }}
+                    </div>
+                  </div>
+                  <div class="flex align-items-center">
+                    <span class="mr-2">{{
+                      user.onLine ? "on-line" : "off-line"
+                    }}</span>
+                    <div [class]="getClaseOnline(user)"></div>
+                  </div>
+                </div>
+              </ng-template>
+            </p-listbox>
+            <div class="mt-5 color-message font-bold" *ngIf="formUsers.invalid">
+              {{ formUsers.get("user")?.getError("minPlayer") }}
+            </div>
+            <button
+              [disabled]="formUsers.invalid"
+              type="submit"
+              class="primary-button mt-5"
+              (click)="createGame()"
+            >
+              Create game
+            </button>
+          </form>
+        </p-card>
+      </div>
+    </div>
+  </div>
+</div>

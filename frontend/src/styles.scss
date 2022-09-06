@@ -1,0 +1,183 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+
+$primary-color: rgb(185 28 28);
+$light-color: #fff;
+
+html,
+body {
+  padding: 0%;
+  margin: 0%;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+}
+
+.custom-text {
+  color: $primary-color;
+}
+
+.container {
+  padding: 0 20px;
+  width: 100vw;
+  max-width: 1700px;
+  margin: 0 auto;
+}
+
+button {
+  cursor: pointer;
+}
+
+.primary-button,
+.primary-button::after {
+  padding: 16px 20px;
+  font-size: 18px;
+  background: linear-gradient(45deg, transparent 5%, $primary-color 5%);
+  border: 0;
+  color: $light-color;
+  letter-spacing: 3px;
+  line-height: 1;
+  box-shadow: 6px 0px 0px $light-color;
+  outline: transparent;
+  position: relative;
+}
+
+.primary-button::after {
+  --slice-0: inset(50% 50% 50% 50%);
+  --slice-1: inset(80% -6px 0 0);
+  --slice-2: inset(50% -6px 30% 0);
+  --slice-3: inset(10% -6px 85% 0);
+  --slice-4: inset(40% -6px 43% 0);
+  --slice-5: inset(80% -6px 5% 0);
+  content: "HOVER ME";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 3%,
+    #00e6f6 3%,
+    #00e6f6 5%,
+    $primary-color 5%
+  );
+  text-shadow: -3px -3px 0px #f8f005, 3px 3px 0px $light-color;
+  clip-path: var(--slice-0);
+}
+
+.primary-button:hover::after {
+  animation: 1s glitch;
+  animation-timing-function: steps(2, end);
+}
+
+@keyframes glitch {
+  0% {
+    clip-path: var(--slice-1);
+    transform: translate(-20px, -10px);
+  }
+
+  10% {
+    clip-path: var(--slice-3);
+    transform: translate(10px, 10px);
+  }
+
+  20% {
+    clip-path: var(--slice-1);
+    transform: translate(-10px, 10px);
+  }
+
+  30% {
+    clip-path: var(--slice-3);
+    transform: translate(0px, 5px);
+  }
+
+  40% {
+    clip-path: var(--slice-2);
+    transform: translate(-5px, 0px);
+  }
+
+  50% {
+    clip-path: var(--slice-3);
+    transform: translate(5px, 0px);
+  }
+
+  60% {
+    clip-path: var(--slice-4);
+    transform: translate(5px, 10px);
+  }
+
+  70% {
+    clip-path: var(--slice-2);
+    transform: translate(-10px, 10px);
+  }
+
+  80% {
+    clip-path: var(--slice-5);
+    transform: translate(20px, -10px);
+  }
+
+  90% {
+    clip-path: var(--slice-1);
+    transform: translate(-10px, 0px);
+  }
+
+  100% {
+    clip-path: var(--slice-1);
+    transform: translate(0);
+  }
+}
+
+/* From uiverse.io by @nikk7007 */
+.secondary-button {
+  padding: 0.8em 1.8em;
+  border: 2px solid $primary-color;
+  position: relative;
+  overflow: hidden;
+  background-color: transparent;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 16px;
+  transition: 0.3s;
+  z-index: 1;
+  font-family: inherit;
+  color: $primary-color;
+}
+
+.secondary-button::before {
+  content: "";
+  width: 0;
+  height: 300%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: $primary-color;
+  transition: 0.5s ease;
+  display: block;
+  z-index: -1;
+}
+
+.secondary-button:hover::before {
+  width: 105%;
+}
+
+.secondary-button:hover {
+  color: #111;
+}
+
+.p-menubar
+  .p-menubar-root-list
+  > .p-menuitem
+  > .p-menuitem-link:not(.p-disabled):hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+.p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: inset 0 0 0 0.15rem $primary-color;
+}
+
+button:disabled{
+  cursor: default;
+}

@@ -1,0 +1,38 @@
+<div class="home-card">
+  <div class="container">
+    <app-nav-bar></app-nav-bar>
+    <div class="grid flex justify-content-center mt-5">
+      <div class="col xl:col-8">
+        <p-card
+          class="opacity-40"
+          header="Game directions"
+          title="Game directions"
+        >
+          <ng-template pTemplate="header">
+            <div class="p-2">
+              <app-logo></app-logo>
+            </div>
+          </ng-template>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
+            sed consequuntur error repudiandae numquam deserunt quisquam
+            repellat libero asperiores earum nam nobis, culpa ratione quam
+            perferendis esse, cupiditate neque quas! Lorem ipsum dolor sit amet,
+            consectetur adipisicing elit. Inventore sed consequuntur error
+            repudiandae numquam deserunt quisquam repellat libero asperiores
+            earum nam nobis, culpa ratione quam perferendis esse, cupiditate
+            neque quas!
+          </p>
+
+          <ng-template pTemplate="footer">
+            <div class="flex w-full justify-content-center">
+              <a class="text-900" routerLink="/create-game"
+                ><button class="primary-button">Create game</button
+              ></a>
+            </div>
+          </ng-template>
+        </p-card>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+.create-card {
+  background-image: url("../../../../assets/recorte.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+.color-message {
+  color: rgb(185 28 28);
+  opacity: .7;
+}
+
+.image-user {
+  img {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+  }
+}
+
+.online{
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: green;
+}
+
+
+.offline{
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: gray;
+}

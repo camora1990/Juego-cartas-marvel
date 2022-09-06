@@ -1,0 +1,25 @@
+<div class="game-card">
+  <div class="container">
+    <app-nav-bar></app-nav-bar>
+    <h1 class="text-center mt-5"><app-logo></app-logo> Games</h1>
+    <div class="grid">
+      <div class="col-12 md:col-6">
+        <p-fieldset 
+          class="opacity-80"
+          legend="
+  Games not started"
+          [toggleable]="true"
+        >
+        </p-fieldset>
+      </div>
+      <div class="col-12 md:col-6">
+        <p-fieldset
+        class="opacity-80"
+          legend="
+    Games started"
+          [toggleable]="true"
+        ></p-fieldset>
+      </div>
+    </div>
+  </div>
+</div>

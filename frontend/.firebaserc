@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "marvel-app-ce0c0": {
+      "hosting": {
+        "Marvel-Apps-Front": [
+          "marvel-app-ce0c0"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "marvel-app-ce0c0"
+  }
+}
