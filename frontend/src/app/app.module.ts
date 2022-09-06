@@ -10,6 +10,9 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { PrimeNgModule } from './prime-ng/prime-ng.module';
 import { GameModule } from './game/game.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LoginComponent } from './auth/pages/login/login.component';
+import { SharedModule } from './shared/shared.module';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PrimeNgModule,
     GameModule,
     BrowserAnimationsModule,
+    SharedModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),

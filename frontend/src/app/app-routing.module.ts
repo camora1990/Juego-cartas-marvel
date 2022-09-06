@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './game/login/login.component';
+
 import {
   canActivate,
   redirectLoggedInTo,
@@ -10,6 +10,7 @@ import { HomeComponent } from './game/pages/home/home.component';
 import { CreateGameComponent } from './game/pages/create-game/create-game.component';
 import { GamesComponent } from './game/pages/games/games.component';
 import { BoardComponent } from './game/pages/board/board.component';
+import { LoginComponent } from './auth/pages/login/login.component';
 
 const routes: Routes = [
   {

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Route, Router } from '@angular/router';
+import { LoginService } from 'src/app/auth/services/login.service';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/game/services/user.service';
 import { MenuItem } from 'primeng/api';
-import { User } from '../../interface/user.model';
-import { LoginService } from '../../services/login.service';
-import { UserService } from '../../services/user.service';
+import { User } from 'src/app/game/interface/user.model';
 
 @Component({
   selector: 'app-nav-bar',
@@ -11,14 +11,15 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./nav-bar.component.scss'],
 })
 export class NavBarComponent implements OnInit {
+
   items: MenuItem[] = [];
+  user!: User;
+
   constructor(
     private loginService: LoginService,
     private router: Router,
     private userService: UserService
   ) {}
-
-  user!: User;
 
   ngOnInit(): void {
     this.items = [
@@ -49,7 +50,6 @@ export class NavBarComponent implements OnInit {
       onLine: true,
     };
   }
-
   logout() {
     this.loginService.logout().then(async (res) => {
       this.user.onLine = false;
