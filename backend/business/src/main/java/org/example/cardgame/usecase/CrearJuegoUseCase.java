@@ -18,60 +18,63 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class CrearJuegoUseCase extends UseCaseForCommand<CrearJuegoCommand> {
-    private final ListaDeCartaService listaDeCartaService;
-    private final Integer CARTAS_POR_MAZO= 5;
 
-    private final Integer MIN_JUGADORES = 2;
+  private final ListaDeCartaService listaDeCartaService;
+  private final Integer CARTAS_POR_MAZO = 5;
 
-    private final Integer MAX_JUGADORES = 6;
+  private final Integer MIN_JUGADORES = 2;
 
-    public CrearJuegoUseCase(ListaDeCartaService listaDeCartaService) {
-        this.listaDeCartaService = listaDeCartaService;
-    }
+  private final Integer MAX_JUGADORES = 6;
 
-    @Override
-    public Flux<DomainEvent> apply(Mono<CrearJuegoCommand> crearJuegoCommand) {
-        return listaDeCartaService.obtenerCartasDeMarvel().collectList()
-                .flatMapMany(cartaMaestras ->
+  public CrearJuegoUseCase(ListaDeCartaService listaDeCartaService) {
+    this.listaDeCartaService = listaDeCartaService;
+  }
 
-                        crearJuegoCommand.flatMapIterable(comandoCrearJuego ->
-                                {
-                                    if (comandoCrearJuego.getJugadores().size()<MIN_JUGADORES ||
-                                            comandoCrearJuego.getJugadores().size()>MIN_JUGADORES)
-                                        throw new BusinessException(comandoCrearJuego.getJuegoId(),
-                                                "No se puede crear el juego por que no tiene la cantidad requerida de jugadores [Min "
-                                                        +MIN_JUGADORES+" Max "+ MAX_JUGADORES);
+  @Override
+  public Flux<DomainEvent> apply(Mono<CrearJuegoCommand> crearJuegoCommand) {
+    return listaDeCartaService.obtenerCartasDeMarvel().collectList()
+        .flatMapMany(cartaMaestras ->
 
-                                    var cartasJuego = creaCartasJuego(cartaMaestras);
-                                    var factory = new JugadorFactory();
+            crearJuegoCommand.flatMapIterable(comandoCrearJuego ->
+                {
+                  if (comandoCrearJuego.getJugadores().size() < MIN_JUGADORES ||
+                      comandoCrearJuego.getJugadores().size() > MIN_JUGADORES) {
+                    throw new BusinessException(comandoCrearJuego.getJuegoId(),
+                        "No se puede crear el juego por que no tiene la cantidad requerida de jugadores [Min "
+                            + MIN_JUGADORES + " Max " + MAX_JUGADORES);
+                  }
 
-                                    comandoCrearJuego.getJugadores()
-                                            .forEach((id, alias) -> {
-                                                var cartasMazoJugador = seleccionaCartasJugador(cartasJuego);
-                                                cartasMazoJugador.forEach(carta->
-                                                        cartasJuego.removeIf(c->
-                                                                c.value().cartaId().equals(carta.value().cartaId())));
-                                                factory.agregarJugador(JugadorId.of(id), alias, new Mazo(cartasMazoJugador));
-                                            });
-                                    var juego = new Juego(JuegoId.of(comandoCrearJuego.getJuegoId()),JugadorId.of(comandoCrearJuego.getJugadorPrincipalId()), factory);
-                                    return juego.getUncommittedChanges();
-                                }
-                        ));
-    }
+                  var cartasJuego = creaCartasJuego(cartaMaestras);
+                  var factory = new JugadorFactory();
 
-    private Set<Carta> seleccionaCartasJugador(List<Carta> cartasJuego) {
-        Collections.shuffle( cartasJuego);
-        return cartasJuego.stream()
-                .limit(CARTAS_POR_MAZO)
-                .collect(Collectors.toSet());
-    }
+                  comandoCrearJuego.getJugadores()
+                      .forEach((id, alias) -> {
+                        var cartasMazoJugador = seleccionaCartasJugador(cartasJuego);
+                        cartasMazoJugador.forEach(carta ->
+                            cartasJuego.removeIf(c ->
+                                c.value().cartaId().equals(carta.value().cartaId())));
+                        factory.agregarJugador(JugadorId.of(id), alias, new Mazo(cartasMazoJugador));
+                      });
+                  var juego = new Juego(JuegoId.of(comandoCrearJuego.getJuegoId()),
+                      JugadorId.of(comandoCrearJuego.getJugadorPrincipalId()), factory);
+                  return juego.getUncommittedChanges();
+                }
+            ));
+  }
 
-    private List<Carta> creaCartasJuego(List<CartaMaestra> cartasMaestras){
-        return cartasMaestras.stream()
-                .map(cartaMaestra ->
-                        new Carta(CartaMaestraId.of(cartaMaestra.getId())
-                                ,cartaMaestra.getPoder(), true,true))
-                .collect(Collectors.toList());
-    }
+  private Set<Carta> seleccionaCartasJugador(List<Carta> cartasJuego) {
+    Collections.shuffle(cartasJuego);
+    return cartasJuego.stream()
+        .limit(CARTAS_POR_MAZO)
+        .collect(Collectors.toSet());
+  }
+
+  private List<Carta> creaCartasJuego(List<CartaMaestra> cartasMaestras) {
+    return cartasMaestras.stream()
+        .map(cartaMaestra ->
+            new Carta(CartaMaestraId.of(cartaMaestra.getId())
+                , cartaMaestra.getPoder(), true, true))
+        .collect(Collectors.toList());
+  }
 
 }
