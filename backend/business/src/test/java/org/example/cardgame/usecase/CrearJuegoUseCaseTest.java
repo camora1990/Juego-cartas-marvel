@@ -48,12 +48,12 @@ class CrearJuegoUseCaseTest {
                 })
                 .expectNextMatches(eventoDomio->{
                     var evento = (JugadorAgregado) eventoDomio;
-                    return "jugador-001".equals(evento.getJuegoId().value())
+                    return "jugador-001".equals(evento.getJugadorId().value())
                             && "Prueba #1".equals(evento.getAlias());
                 })
                 .expectNextMatches(eventoDomio->{
                     var evento = (JugadorAgregado) eventoDomio;
-                    return "jugador-002".equals(evento.getJuegoId().value())
+                    return "jugador-002".equals(evento.getJugadorId().value())
                             && "Prueba #2".equals(evento.getAlias());
                 })
                 .expectComplete()
@@ -72,8 +72,8 @@ class CrearJuegoUseCaseTest {
                 new CartaMaestra("carta-007","prueba #7"),
                 new CartaMaestra("carta-008","prueba #8"),
                 new CartaMaestra("carta-009","prueba #9"),
-                new CartaMaestra("carta-010","prueba #10"),
                 new CartaMaestra("carta-010","prueba #10")
+
         );
     }
 

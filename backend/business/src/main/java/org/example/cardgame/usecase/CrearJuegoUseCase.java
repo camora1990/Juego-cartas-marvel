@@ -50,6 +50,9 @@ public class CrearJuegoUseCase extends UseCaseForCommand<CrearJuegoCommand> {
                   comandoCrearJuego.getJugadores()
                       .forEach((id, alias) -> {
                         var cartasMazoJugador = seleccionaCartasJugador(cartasJuego);
+                        if (cartasMazoJugador.size() < CARTAS_POR_MAZO) {
+                          throw new BusinessException(comandoCrearJuego.getJuegoId(), "No hay cartas suficientes");
+                        }
                         cartasMazoJugador.forEach(carta ->
                             cartasJuego.removeIf(c ->
                                 c.value().cartaId().equals(carta.value().cartaId())));

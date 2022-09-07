@@ -5,6 +5,7 @@ import org.example.cardgame.Juego;
 import org.example.cardgame.command.FinalizarRondaCommand;
 import org.example.cardgame.gateway.JuegoDomainEventRepository;
 import org.example.cardgame.values.JuegoId;
+import org.example.cardgame.values.JugadorId;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -22,7 +23,7 @@ private final JuegoDomainEventRepository repository;
             .collectList()
             .flatMapIterable(event->{
               var juego = Juego.from(JuegoId.of(comando.getJuegoId()),event);
-              juego.tablero().partida();
+
               return juego.getUncommittedChanges();
             })
 
