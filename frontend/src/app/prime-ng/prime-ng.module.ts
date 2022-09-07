@@ -6,9 +6,10 @@ import { MenubarModule } from 'primeng/menubar';
 import {ListboxModule} from 'primeng/listbox';
 import {ToastModule} from 'primeng/toast';
 import { FieldsetModule } from 'primeng/fieldset';
+import {AvatarModule} from 'primeng/avatar';
 
 @NgModule({
   declarations: [],
-  exports: [ButtonModule, CardModule, MenubarModule,ListboxModule,ToastModule,FieldsetModule],
+  exports: [ButtonModule, CardModule, MenubarModule,ListboxModule,ToastModule,FieldsetModule,AvatarModule],
 })
 export class PrimeNgModule {}

@@ -1,7 +1,7 @@
 <div class="create-card">
+  <!-- <app-nav-bar></app-nav-bar> -->
   <div class="container">
-    <app-nav-bar></app-nav-bar>
-    <div class="grid flex justify-content-center mt-5">
+    <div class="grid flex  m-0 justify-content-center animate__animated animate__fadeIn">
       <div class="col md:col-8 xl:col-6">
         <p-card header="Select players" class="text-center opacity-80">
           <ng-template pTemplate="header">
@@ -52,7 +52,7 @@
               [disabled]="formUsers.invalid"
               type="submit"
               class="primary-button mt-5"
-              (click)="createGame()"
+            
             >
               Create game
             </button>

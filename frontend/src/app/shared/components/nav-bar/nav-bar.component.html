@@ -1,4 +1,5 @@
-<p-menubar [model]="items">
+<div class="container relative">
+  <p-menubar [model]="items" class="absolute w-full">
     <div class="flex align-items-center">
       <div>
         <img class="mr-3" p [src]="user ? user.photoURL : 'aaa'" alt="" />
@@ -8,4 +9,4 @@
       </button>
     </div>
   </p-menubar>
-  
+</div>

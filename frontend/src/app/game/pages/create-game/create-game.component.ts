@@ -28,12 +28,11 @@ export class CreateGameComponent implements OnInit {
     this.userService.getUsers().subscribe({
       next: (res) => {
         this.users = res
-          .filter(
-            ({ uid }) => uid !== this.userService.getCurrentUser()!.uid
-          )
+          .filter(({ uid }) => uid !== this.userService.getCurrentUser()!.uid)
           .map((user) => {
             return { ...user, disable: !user.onLine };
-          });
+          })
+          .sort((a, b) => Number(b.onLine) - Number(a.onLine));
       },
     });
   }
@@ -64,7 +63,7 @@ export class CreateGameComponent implements OnInit {
     return user.onLine ? 'online mr-2' : 'offline mr-2';
   }
 
-  createGame(){
-
+  createGame(user: any) {
+    console.log(user);
   }
 }

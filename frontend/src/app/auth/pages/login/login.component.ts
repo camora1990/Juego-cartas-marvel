@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
           onLine: true,
         };
         this.userService.addUser(user);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/marvel-game/home']);
       });
   }
 }

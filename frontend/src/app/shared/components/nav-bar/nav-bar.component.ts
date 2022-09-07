@@ -26,17 +26,17 @@ export class NavBarComponent implements OnInit {
       {
         label: 'Home',
         icon: 'pi pi-home',
-        routerLink: '/',
+        routerLink: '/marvel-game/home'
       },
       {
         label: 'Create game',
         icon: 'fa-solid fa-circle-plus',
-        routerLink: '/create-game',
+        routerLink: '/marvel-game/create',
       },
       {
         label: 'Games',
         icon: 'fa-solid fa-gamepad',
-        routerLink: '/games',
+        routerLink: '/marvel-game/games',
       },
     ];
 
@@ -54,7 +54,7 @@ export class NavBarComponent implements OnInit {
     this.loginService.logout().then(async (res) => {
       this.user.onLine = false;
       await this.userService.updateUser(this.user);
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
     });
   }
 }
