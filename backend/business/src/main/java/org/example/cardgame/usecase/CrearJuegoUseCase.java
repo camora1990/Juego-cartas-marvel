@@ -37,12 +37,12 @@ public class CrearJuegoUseCase extends UseCaseForCommand<CrearJuegoCommand> {
 
             crearJuegoCommand.flatMapIterable(comandoCrearJuego ->
                 {
-//                  if (comandoCrearJuego.getJugadores().size() < MIN_JUGADORES ||
-//                      comandoCrearJuego.getJugadores().size() > MIN_JUGADORES) {
-//                    throw new BusinessException(comandoCrearJuego.getJuegoId(),
-//                        "No se puede crear el juego por que no tiene la cantidad requerida de jugadores [Min "
-//                            + MIN_JUGADORES + " Max " + MAX_JUGADORES);
-//                  }
+                  if (comandoCrearJuego.getJugadores().size() < MIN_JUGADORES ||
+                      comandoCrearJuego.getJugadores().size() > MIN_JUGADORES) {
+                    throw new BusinessException(comandoCrearJuego.getJuegoId(),
+                        "No se puede crear el juego por que no tiene la cantidad requerida de jugadores [Min "
+                            + MIN_JUGADORES + " Max " + MAX_JUGADORES);
+                  }
 
                   var cartasJuego = creaCartasJuego(cartaMaestras);
                   var factory = new JugadorFactory();
@@ -50,9 +50,9 @@ public class CrearJuegoUseCase extends UseCaseForCommand<CrearJuegoCommand> {
                   comandoCrearJuego.getJugadores()
                       .forEach((id, alias) -> {
                         var cartasMazoJugador = seleccionaCartasJugador(cartasJuego);
-//                        if (cartasMazoJugador.size() < CARTAS_POR_MAZO) {
-//                          throw new BusinessException(comandoCrearJuego.getJuegoId(), "No hay cartas suficientes");
-//                        }
+                        if (cartasMazoJugador.size() < CARTAS_POR_MAZO) {
+                          throw new BusinessException(comandoCrearJuego.getJuegoId(), "No hay cartas suficientes");
+                        }
                         cartasMazoJugador.forEach(carta ->
                             cartasJuego.removeIf(c ->
                                 c.value().cartaId().equals(carta.value().cartaId())));
