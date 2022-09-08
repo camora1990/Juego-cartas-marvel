@@ -48,12 +48,12 @@ class CrearJuegoUseCaseTest {
                 })
                 .expectNextMatches(eventoDomio->{
                     var evento = (JugadorAgregado) eventoDomio;
-                    return "jugador-001".equals(evento.getJugadorId().value())
+                    return "jugador-001".equals(evento.getJuegoId().value())
                             && "Prueba #1".equals(evento.getAlias());
                 })
                 .expectNextMatches(eventoDomio->{
                     var evento = (JugadorAgregado) eventoDomio;
-                    return "jugador-002".equals(evento.getJugadorId().value())
+                    return "jugador-002".equals(evento.getJuegoId().value())
                             && "Prueba #2".equals(evento.getAlias());
                 })
                 .expectComplete()

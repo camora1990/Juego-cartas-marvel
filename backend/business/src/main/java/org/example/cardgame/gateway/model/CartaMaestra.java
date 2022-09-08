@@ -11,6 +11,9 @@ public class CartaMaestra {
         this.nombre = nombre;
     }
 
+    public CartaMaestra() {
+    }
+
     public String getId() {
         return id;
     }
