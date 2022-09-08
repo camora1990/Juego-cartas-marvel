@@ -7,6 +7,8 @@ import {
   CollectionReference,
   collectionData,
   doc,
+  where,
+  query
 } from '@angular/fire/firestore';
 import { User } from '../interface/user.model';
 import { Observable } from 'rxjs';
@@ -38,8 +40,11 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
-    return collectionData(this.refCollectUser, {
-      idField: 'uid',
-    }) as Observable<User[]>;
+    debugger
+    const query_personal = query(this.refCollectUser, where("uid", "!=",this.getCurrentUser()?.uid));
+    return collectionData(query_personal, { idField: 'uid' }) as Observable<User[]>;
+    // return collectionData(this.refCollectUser, {
+    //   idField: 'uid',
+    // }) as Observable<User[]>;
   }
 }

@@ -11,7 +11,6 @@ import { User } from 'src/app/game/interface/user.model';
   styleUrls: ['./nav-bar.component.scss'],
 })
 export class NavBarComponent implements OnInit {
-
   items: MenuItem[] = [];
   user!: User;
 
@@ -26,7 +25,7 @@ export class NavBarComponent implements OnInit {
       {
         label: 'Home',
         icon: 'pi pi-home',
-        routerLink: '/marvel-game/home'
+        routerLink: '/marvel-game/home',
       },
       {
         label: 'Create game',
@@ -53,6 +52,7 @@ export class NavBarComponent implements OnInit {
   logout() {
     this.loginService.logout().then(async (res) => {
       this.user.onLine = false;
+      this.user.disable = true;
       await this.userService.updateUser(this.user);
       this.router.navigate(['/login']);
     });

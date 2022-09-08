@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
           photoURL: photoURL || '',
           uid,
           onLine: true,
+          disable: false
         };
         this.userService.addUser(user);
         this.router.navigate(['/marvel-game/home']);

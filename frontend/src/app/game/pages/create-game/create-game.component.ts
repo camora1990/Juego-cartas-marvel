@@ -27,12 +27,14 @@ export class CreateGameComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getUsers().subscribe({
       next: (res) => {
+        // this.users = res
+        //   .filter(({ uid }) => uid !== this.userService.getCurrentUser()!.uid)
+        //   .map((user) => {
+        //     return { ...user, disable: !user.onLine };
+        //   })
+        //   .sort((a, b) => Number(b.onLine) - Number(a.onLine));
+        debugger
         this.users = res
-          .filter(({ uid }) => uid !== this.userService.getCurrentUser()!.uid)
-          .map((user) => {
-            return { ...user, disable: !user.onLine };
-          })
-          .sort((a, b) => Number(b.onLine) - Number(a.onLine));
       },
     });
   }
@@ -65,5 +67,8 @@ export class CreateGameComponent implements OnInit {
 
   createGame(user: any) {
     console.log(user);
+
+    
+fetch("https://gateway.marvel.com:443/v1/public/characters?ts=1&apikey=0df9d42b091a72b5e0402204ffd2301f&hash=b594891ae637edabd11c59b8be4f31bb&limit=100&offset=10").then(res=>res.json()).then((data)=>{console.log(data)})
   }
 }
