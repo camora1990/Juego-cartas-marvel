@@ -49,6 +49,17 @@ public class QueryHandle {
         );
     }
 
+    @Bean
+    public RouterFunction<ServerResponse> getGames(){
+        return RouterFunctions.route(
+            GET("/juegos/"),
+            serverRequest -> template.findAll(JuegoListViewModel.class,"gameview")
+                .collectList()
+                .flatMap(games->ServerResponse.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(BodyInserters.fromPublisher(Flux.fromIterable(games),JuegoListViewModel.class))));
+
+    }
     private Query filterByUId(String uid) {
         return new Query(
                 Criteria.where("uid").is(uid)
