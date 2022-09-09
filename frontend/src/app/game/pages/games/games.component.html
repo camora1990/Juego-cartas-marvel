@@ -16,10 +16,15 @@
               class="grid m-0"
               *ngFor="let item of gamesNoStarted; let i = index"
             >
-              <div class="col-8">>Game # {{ i + 1 }}</div>
-              <div class="col-4">
+              <div class="col-8">
+                <span class="block">Game # {{ i + 1 }}</span>
+                <span class="block text-300"
+                  >Players [{{ item.cantidadJugadores }}]</span
+                >
+              </div>
+              <div class="col-4 flex justify-content-center">
                 <a routerLink="/marvel-game/board/{{ item.id }}">
-                  <button class="btn-game">
+                  <button class="btn-game w-auto">
                     <span>Start</span>
                   </button>
                 </a>
@@ -46,11 +51,16 @@
               class="grid m-0"
               *ngFor="let item of gamesStarted; let i = index"
             >
-              <div class="col-8">Game # {{ i + 1 }}</div>
-              <div class="col-4">
+              <div class="col-8">
+                <span class="block">Game # {{ i + 1 }}</span>
+                <span class="block text-300"
+                  >Players [{{ item.cantidadJugadores }}]</span
+                >
+              </div>
+              <div class="col-4 flex justify-content-center">
                 <a routerLink="/marvel-game/board/{{ item.id }}"
-                  ><button class="btn-game">
-                    <span>Enter</span>
+                  ><button class="btn-game w-auto">
+                    <span>Enter </span>
                   </button></a
                 >
               </div>

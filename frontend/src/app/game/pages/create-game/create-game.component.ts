@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -20,7 +20,7 @@ import { WebsocketService } from '../../services/websocket.service';
   templateUrl: './create-game.component.html',
   styleUrls: ['./create-game.component.scss'],
 })
-export class CreateGameComponent implements OnInit {
+export class CreateGameComponent implements OnInit, OnDestroy {
   formUsers: FormGroup;
   private minPlayers: number = 2;
   private maxPlayer: number = 5;
@@ -45,6 +45,9 @@ export class CreateGameComponent implements OnInit {
       jugadorPrincipalId: this.mainPlayer.uid,
     };
   }
+  ngOnDestroy(): void {
+    this.webSocketService.close();
+  }
 
   ngOnInit(): void {
     this.userService.getUsers().subscribe({
@@ -52,7 +55,17 @@ export class CreateGameComponent implements OnInit {
         this.users = res.sort((a, b) => Number(b.onLine) - Number(a.onLine));
       },
     });
-    this.webSocketService.conect(this.gameId).subscribe(res=>console.log(res))
+    this.webSocketService.conect(this.gameId).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (err) => this.sweetAlertService.errorMessage(),
+      complete: () => {
+        console.log('create');
+        this.sweetAlertService.successfulMessage();
+        this.router.navigate(['/marvel-game/games']);
+      },
+    });
   }
 
   createFormUsers(): FormGroup {
@@ -82,7 +95,7 @@ export class CreateGameComponent implements OnInit {
   }
 
   createGame() {
-    debugger;
+
     const users = this.formUsers.value.user as User[];
 
     const playersCommand = this.generatePlayersCommand(users);
@@ -91,12 +104,10 @@ export class CreateGameComponent implements OnInit {
       ...this.comandCreateGame,
       jugadores: { ...this.comandCreateGame.jugadores, ...playersCommand },
     };
-
     this.gameService.createGame(this.comandCreateGame).subscribe({
       next: (res) => console.log(res),
-      error: (err) => console.error(err),
+      error: (err) => this.sweetAlertService.errorMessage(),
       complete: () => {
-        console.log('first');
         this.disableUser(users);
         this.sweetAlertService.successfulMessage();
         this.router.navigate(['/marvel-game/games']);

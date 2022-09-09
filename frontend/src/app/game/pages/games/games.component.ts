@@ -20,8 +20,8 @@ export class GamesComponent implements OnInit {
   ngOnInit(): void {
     this.gameService.getGames().subscribe({
       next: (resp) => {
-        this.gamesNoStarted = resp.filter((e) => (e.iniciado = false));
-        this.gamesStarted = resp.filter((e) => (e.iniciado = true));
+        this.gamesNoStarted = resp.filter((e) => (e.iniciado == false));
+        this.gamesStarted = resp.filter((e) => (e.iniciado == true));
       },
       error: (err) => {
         this.sweetAlertService.errorMessage();
