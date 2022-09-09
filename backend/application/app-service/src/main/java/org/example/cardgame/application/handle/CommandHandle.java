@@ -3,7 +3,9 @@ package org.example.cardgame.application.handle;
 
 
 import org.example.cardgame.command.CrearJuegoCommand;
+import org.example.cardgame.command.IniciarJuegoCommand;
 import org.example.cardgame.usecase.CrearJuegoUseCase;
+import org.example.cardgame.usecase.IniciarJuegoUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -36,6 +38,15 @@ public class CommandHandle {
 
         );
     }
+
+    @Bean
+    public RouterFunction<ServerResponse> iniciarJuego(IniciarJuegoUseCase useCase){
+        return route(POST("/juego/iniciar").and(accept(MediaType.APPLICATION_JSON)),
+            serverRequest -> useCase.andThen(integrationHandle)
+                .apply(serverRequest.bodyToMono(IniciarJuegoCommand.class))
+                    .then(ServerResponse.ok().build()));
+    }
+
 
 
 
