@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
+import { Auth, User as CurrentUser } from '@angular/fire/auth';
 import {
   Firestore,
   collection,
@@ -8,7 +8,7 @@ import {
   collectionData,
   doc,
   where,
-  query
+  query,
 } from '@angular/fire/firestore';
 import { User } from '../interface/user.model';
 import { Observable } from 'rxjs';
@@ -17,15 +17,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  
-  private refCollectUser: CollectionReference = collection(
-    this.store,
-    'users'
-  );
+  private refCollectUser: CollectionReference = collection(this.store, 'users');
 
   constructor(private auth: Auth, private store: Firestore) {}
 
-  getCurrentUser() {
+  getCurrentUser(): CurrentUser | null {
     return this.auth.currentUser;
   }
 
@@ -40,11 +36,12 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
-    debugger
-    const query_personal = query(this.refCollectUser, where("uid", "!=",this.getCurrentUser()?.uid));
-    return collectionData(query_personal, { idField: 'uid' }) as Observable<User[]>;
-    // return collectionData(this.refCollectUser, {
-    //   idField: 'uid',
-    // }) as Observable<User[]>;
+    const query_personal = query(
+      this.refCollectUser,
+      where('uid', '!=', this.getCurrentUser()?.uid)
+    );
+    return collectionData(query_personal, { idField: 'uid' }) as Observable<
+      User[]
+    >;
   }
 }

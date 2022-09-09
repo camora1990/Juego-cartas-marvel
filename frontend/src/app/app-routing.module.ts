@@ -10,14 +10,18 @@ import {
 const routes: Routes = [
   {
     path: '',
-    loadChildren:()=>import('./auth/auth.module').then(m=>m.AuthModule),
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
     ...canActivate(() => redirectLoggedInTo(['/marvel-game/home'])),
   },
   {
     path: 'marvel-game',
-    loadChildren:()=>import('./game/game.module').then(m=>m.GameModule),
+    loadChildren: () => import('./game/game.module').then((m) => m.GameModule),
     ...canActivate(() => redirectUnauthorizedTo(['/login'])),
-  }
+  },
+  {
+    path: '**',
+    redirectTo: "/login",
+  },
 ];
 
 @NgModule({

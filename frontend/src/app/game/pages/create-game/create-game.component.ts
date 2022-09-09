@@ -6,9 +6,14 @@ import {
   AbstractControl,
   ValidationErrors,
 } from '@angular/forms';
-import { User } from '../../interface/user.model';
-import { UserService } from '../../services/user.service';
 
+import { UserService } from '../../services/user.service';
+import { v4 as uuidv4, v4 } from 'uuid';
+import { User as CurrentUser } from '@angular/fire/auth';
+import { GameService } from '../../services/game.service';
+import { User } from 'src/app/game/interface/user.model';
+import { Action } from 'rxjs/internal/scheduler/Action';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-create-game',
   templateUrl: './create-game.component.html',
@@ -19,22 +24,29 @@ export class CreateGameComponent implements OnInit {
   private minPlayers: number = 2;
   private maxPlayer: number = 5;
   users: User[] = [];
+  private comandCreateGame: any;
+  private gameId: String;
+  private mainPlayer: CurrentUser;
 
-  constructor(private userService: UserService) {
+  constructor(
+    private userService: UserService,
+    private gameService: GameService,
+    private router: Router
+  ) {
+    this.mainPlayer = this.userService.getCurrentUser()!;
+    this.gameId = v4();
     this.formUsers = this.createFormUsers();
+    this.comandCreateGame = {
+      juegoId: this.gameId,
+      jugadores: { [this.mainPlayer.uid]: this.mainPlayer.displayName },
+      jugadorPrincipalId: this.mainPlayer.uid,
+    };
   }
 
   ngOnInit(): void {
     this.userService.getUsers().subscribe({
       next: (res) => {
-        // this.users = res
-        //   .filter(({ uid }) => uid !== this.userService.getCurrentUser()!.uid)
-        //   .map((user) => {
-        //     return { ...user, disable: !user.onLine };
-        //   })
-        //   .sort((a, b) => Number(b.onLine) - Number(a.onLine));
-        debugger
-        this.users = res
+        this.users = res.sort((a, b) => Number(b.onLine) - Number(a.onLine));
       },
     });
   }
@@ -65,10 +77,43 @@ export class CreateGameComponent implements OnInit {
     return user.onLine ? 'online mr-2' : 'offline mr-2';
   }
 
-  createGame(user: any) {
-    console.log(user);
+  createGame() {
+    debugger;
+    const users = this.formUsers.value.user as User[];
 
-    
-fetch("https://gateway.marvel.com:443/v1/public/characters?ts=1&apikey=0df9d42b091a72b5e0402204ffd2301f&hash=b594891ae637edabd11c59b8be4f31bb&limit=100&offset=10").then(res=>res.json()).then((data)=>{console.log(data)})
+    const playersCommand = this.generatePlayersCommand(users);
+
+    this.comandCreateGame = {
+      ...this.comandCreateGame,
+      jugadores: { ...this.comandCreateGame.jugadores, ...playersCommand },
+    };
+
+    this.gameService.createGame(this.comandCreateGame).subscribe({
+      next: (res) => console.log(res),
+      error: (err) => console.error(err),
+      complete: () => {
+        console.log('first');
+        this.disableUser(users);
+        this.router.navigate(["/marvel-game/games"])
+        
+      },
+    });
+  }
+
+  private generatePlayersCommand(users: User[]) {
+    return users.reduce((previous: any, current: User) => {
+      return (previous = {
+        ...previous,
+        [current.uid]: current.displayName,
+      });
+    }, {});
+  }
+
+  private disableUser(users: User[]) {
+    users.forEach(async (elem) => {
+      this.userService
+        .addUser({ ...elem, disable: true })
+        .catch((err) => console.log(err));
+    });
   }
 }

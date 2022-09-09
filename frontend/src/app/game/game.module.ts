@@ -9,6 +9,8 @@ import { BoardComponent } from './pages/board/board.component';
 import { SharedModule } from '../shared/shared.module';
 import { GameRoutingModule } from './game-routing.module';
 import { GameComponent } from './game.component';
+import { ErrorComponent } from './pages/error/error.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,7 @@ import { GameComponent } from './game.component';
     GamesComponent,
     BoardComponent,
     GameComponent,
+    ErrorComponent,
   ],
   imports: [
     CommonModule,
@@ -25,6 +28,7 @@ import { GameComponent } from './game.component';
     FormsModule,
     SharedModule,
     GameRoutingModule,
+    HttpClientModule,
   ],
   exports: [],
 })
