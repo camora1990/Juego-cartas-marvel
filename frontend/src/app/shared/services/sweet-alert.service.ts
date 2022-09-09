@@ -5,6 +5,8 @@ import Swal from 'sweetalert2';
   providedIn: 'root',
 })
 export class SweetAlertService {
+
+  private background: string = "#1e1e1e"
   constructor() {}
 
   successfulMessage(
@@ -17,7 +19,17 @@ export class SweetAlertService {
       title: message,
       showConfirmButton: false,
       timer: timer,
-      background: '#1e1e1e',
+      background: this.background,
+    });
+  }
+
+  errorMessage() {
+    return Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Something went wrong!',
+      footer: '<a href="">Why do I have this issue?</a>',
+      background: this.background,
     });
   }
 }

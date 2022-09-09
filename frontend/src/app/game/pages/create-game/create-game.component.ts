@@ -7,13 +7,14 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 
-import { UserService } from '../../services/user.service';
 import { v4 as uuidv4, v4 } from 'uuid';
 import { User as CurrentUser } from '@angular/fire/auth';
 import { GameService } from '../../services/game.service';
 import { User } from 'src/app/game/interface/user.model';
 import { Router } from '@angular/router';
 import { SweetAlertService } from '../../../shared/services/sweet-alert.service';
+import { UserService } from '../../../auth/services/user/user.service';
+import { WebsocketService } from '../../services/websocket.service';
 @Component({
   selector: 'app-create-game',
   templateUrl: './create-game.component.html',
@@ -25,14 +26,15 @@ export class CreateGameComponent implements OnInit {
   private maxPlayer: number = 5;
   users: User[] = [];
   private comandCreateGame: any;
-  private gameId: String;
+  private gameId: string;
   private mainPlayer: CurrentUser;
 
   constructor(
     private userService: UserService,
     private gameService: GameService,
     private router: Router,
-    private sweetAlertService: SweetAlertService
+    private sweetAlertService: SweetAlertService,
+    private webSocketService: WebsocketService
   ) {
     this.mainPlayer = this.userService.getCurrentUser()!;
     this.gameId = v4();
@@ -50,6 +52,7 @@ export class CreateGameComponent implements OnInit {
         this.users = res.sort((a, b) => Number(b.onLine) - Number(a.onLine));
       },
     });
+    this.webSocketService.conect(this.gameId).subscribe(res=>console.log(res))
   }
 
   createFormUsers(): FormGroup {

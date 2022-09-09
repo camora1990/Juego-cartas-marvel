@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../../services/login.service';
+
 import { Router } from '@angular/router';
-import { UserService } from '../../../game/services/user.service';
+
 import { User } from 'src/app/game/interface/user.model';
 import { SweetAlertService } from '../../../shared/services/sweet-alert.service';
+import { LoginService } from '../../services/login/login.service';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-login',

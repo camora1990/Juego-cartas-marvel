@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from 'src/app/auth/services/login.service';
+
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/game/services/user.service';
+
 import { MenuItem } from 'primeng/api';
 import { User } from 'src/app/game/interface/user.model';
+import { LoginService } from '../../../auth/services/login/login.service';
+import { UserService } from '../../../auth/services/user/user.service';
 
 @Component({
   selector: 'app-nav-bar',

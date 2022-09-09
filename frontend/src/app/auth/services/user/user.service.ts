@@ -10,14 +10,17 @@ import {
   where,
   query,
 } from '@angular/fire/firestore';
-import { User } from '../interface/user.model';
+
 import { Observable } from 'rxjs';
+import { User } from '../../../game/interface/user.model';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   private refCollectUser: CollectionReference = collection(this.store, 'users');
+
 
   constructor(private auth: Auth, private store: Firestore) {}
 

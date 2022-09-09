@@ -2,23 +2,66 @@
   <!-- <app-nav-bar></app-nav-bar> -->
   <div class="container">
     <h1 class="text-center m-0"><app-logo></app-logo> Games</h1>
-    <div class="grid  m-0 animate__animated animate__fadeIn">
+    <div class="grid m-0 animate__animated animate__fadeIn">
       <div class="col-12 md:col-6">
-        <p-fieldset 
+        <p-fieldset
+          [collapsed]="gamesNoStarted.length == 0"
           class="opacity-80"
           legend="
   Games not started"
           [toggleable]="true"
         >
+          <p-scrollPanel [style]="{ width: '100%', height: '400px' }">
+            <div
+              class="grid m-0"
+              *ngFor="let item of gamesNoStarted; let i = index"
+            >
+              <div class="col-8">>Game # {{ i + 1 }}</div>
+              <div class="col-4">
+                <a routerLink="/marvel-game/board/{{ item.id }}">
+                  <button class="btn-game">
+                    <span>Start</span>
+                  </button>
+                </a>
+              </div>
+              <p-divider align="left" class="w-full">
+                <div class="inline-flex align-items-center">
+                  <i class="pi pi-id-card mr-2"></i>
+                </div>
+              </p-divider>
+            </div>
+          </p-scrollPanel>
         </p-fieldset>
       </div>
       <div class="col-12 md:col-6">
         <p-fieldset
-        class="opacity-80"
+          [collapsed]="gamesStarted.length == 0"
+          class="opacity-80"
           legend="
     Games started"
           [toggleable]="true"
-        ></p-fieldset>
+        >
+          <p-scrollPanel [style]="{ width: '100%', height: '400px' }">
+            <div
+              class="grid m-0"
+              *ngFor="let item of gamesStarted; let i = index"
+            >
+              <div class="col-8">Game # {{ i + 1 }}</div>
+              <div class="col-4">
+                <a routerLink="/marvel-game/board/{{ item.id }}"
+                  ><button class="btn-game">
+                    <span>Enter</span>
+                  </button></a
+                >
+              </div>
+              <p-divider align="left" class="w-full">
+                <div class="inline-flex align-items-center">
+                  <i class="pi pi-id-card mr-2"></i>
+                </div>
+              </p-divider>
+            </div>
+          </p-scrollPanel>
+        </p-fieldset>
       </div>
     </div>
   </div>

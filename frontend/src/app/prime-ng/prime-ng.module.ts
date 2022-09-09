@@ -8,6 +8,8 @@ import { ToastModule } from 'primeng/toast';
 import { FieldsetModule } from 'primeng/fieldset';
 import { AvatarModule } from 'primeng/avatar';
 import { ImageModule } from 'primeng/image';
+import { DividerModule } from 'primeng/divider';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 @NgModule({
   declarations: [],
@@ -20,6 +22,8 @@ import { ImageModule } from 'primeng/image';
     FieldsetModule,
     AvatarModule,
     ImageModule,
+    DividerModule,
+    ScrollPanelModule,
   ],
 })
 export class PrimeNgModule {}
