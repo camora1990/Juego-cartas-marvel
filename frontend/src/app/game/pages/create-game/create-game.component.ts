@@ -12,9 +12,8 @@ import { v4 as uuidv4, v4 } from 'uuid';
 import { User as CurrentUser } from '@angular/fire/auth';
 import { GameService } from '../../services/game.service';
 import { User } from 'src/app/game/interface/user.model';
-import { Action } from 'rxjs/internal/scheduler/Action';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
+import { SweetAlertService } from '../../../shared/services/sweet-alert.service';
 @Component({
   selector: 'app-create-game',
   templateUrl: './create-game.component.html',
@@ -32,7 +31,8 @@ export class CreateGameComponent implements OnInit {
   constructor(
     private userService: UserService,
     private gameService: GameService,
-    private router: Router
+    private router: Router,
+    private sweetAlertService: SweetAlertService
   ) {
     this.mainPlayer = this.userService.getCurrentUser()!;
     this.gameId = v4();
@@ -95,15 +95,8 @@ export class CreateGameComponent implements OnInit {
       complete: () => {
         console.log('first');
         this.disableUser(users);
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'Your work has been saved',
-          showConfirmButton: false,
-          timer: 1500
-        })
-        this.router.navigate(["/marvel-game/games"])
-        
+        this.sweetAlertService.successfulMessage();
+        this.router.navigate(['/marvel-game/games']);
       },
     });
   }
