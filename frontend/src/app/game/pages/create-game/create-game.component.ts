@@ -14,6 +14,7 @@ import { GameService } from '../../services/game.service';
 import { User } from 'src/app/game/interface/user.model';
 import { Action } from 'rxjs/internal/scheduler/Action';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-create-game',
   templateUrl: './create-game.component.html',
@@ -94,6 +95,13 @@ export class CreateGameComponent implements OnInit {
       complete: () => {
         console.log('first');
         this.disableUser(users);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Your work has been saved',
+          showConfirmButton: false,
+          timer: 1500
+        })
         this.router.navigate(["/marvel-game/games"])
         
       },
