@@ -46,7 +46,7 @@ public class PonerCartaEnTableroUseCase extends UseCaseForCommand<PonerCartaEnTa
     private Carta seleccionarCarta(String cartaId, Set<Carta> cartasDelJugador) {
         return cartasDelJugador
                 .stream()
-                .filter(c -> c.value().cartaId().value().equals(cartaId))
+                .filter(c -> c.value().cartaId().equals(cartaId))
                 .findFirst()
                 .orElseThrow();
     }

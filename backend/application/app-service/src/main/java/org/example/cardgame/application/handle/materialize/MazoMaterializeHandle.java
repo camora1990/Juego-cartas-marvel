@@ -1,14 +1,22 @@
 package org.example.cardgame.application.handle.materialize;
 
 import co.com.sofka.domain.generic.DomainEvent;
-import java.time.Instant;
+import java.util.ArrayList;
+import java.util.function.Consumer;
 import org.bson.Document;
+import org.example.cardgame.application.handle.model.MazoViewModel;
+import org.example.cardgame.events.JuegoCreado;
 import org.example.cardgame.events.JugadorAgregado;
+import org.example.cardgame.values.Carta;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
+import java.time.Instant;
+import java.util.HashMap;
 
 @Configuration
 public class MazoMaterializeHandle {
@@ -32,7 +40,7 @@ public class MazoMaterializeHandle {
     data.put("fecha", Instant.now());
     data.put("jugadorId", event.getJugadorId().value());
 
-        data.put("cartas", cartas);
+    data.put("cartas", cartas);
     template.save(data, COLLECTION_VIEW).block();
   }
 

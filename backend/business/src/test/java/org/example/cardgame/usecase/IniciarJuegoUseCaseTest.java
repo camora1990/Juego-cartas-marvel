@@ -1,8 +1,6 @@
 package org.example.cardgame.usecase;
 
-import co.com.sofka.business.generic.UseCase;
 import co.com.sofka.domain.generic.DomainEvent;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.example.cardgame.command.IniciarJuegoCommand;
@@ -25,7 +23,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,11 +56,11 @@ class IniciarJuegoUseCaseTest {
   private Flux<DomainEvent> obtenerEventos() {
 
     var cartas = Set.of(
-        new Carta(CartaMaestraId.of("cm-001"), 500, false, false),
-        new Carta(CartaMaestraId.of("cm-002"), 100, false, false),
-        new Carta(CartaMaestraId.of("cm-003"), 200, false, false),
-        new Carta(CartaMaestraId.of("cm-004"), 300, false, false),
-        new Carta(CartaMaestraId.of("cm-005"), 400, false, false)
+        new Carta(CartaMaestraId.of("cm-001"), 500, false, false, uri),
+        new Carta(CartaMaestraId.of("cm-002"), 100, false, false, uri),
+        new Carta(CartaMaestraId.of("cm-003"), 200, false, false, uri),
+        new Carta(CartaMaestraId.of("cm-004"), 300, false, false, uri),
+        new Carta(CartaMaestraId.of("cm-005"), 400, false, false, uri)
     );
 
     return Flux.just(

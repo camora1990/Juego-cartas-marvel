@@ -38,9 +38,9 @@ public class Mazo implements ValueObject<Mazo.Props> {
     }
 
     public Mazo retirarCarta(Carta cartaRetirada) {
-        var cartaId =  cartaRetirada.value().cartaId().value();
+        var cartaId =  cartaRetirada.value().cartaId();
         var nuevoMazo = this.catas.stream()
-                .filter(carta -> !cartaId.equals(carta.value().cartaId().value()))
+                .filter(carta -> !cartaId.equals(carta.value().cartaId()))
                 .collect(Collectors.toCollection(HashSet::new));
         return new Mazo(nuevoMazo);
     }

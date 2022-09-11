@@ -57,8 +57,8 @@ class PonerCartaEnTableroUseCaseTest {
         var cartas = Set.of(new Carta(
                 CartaMaestraId.of("xxxxx"),
                 20,
-                false, true
-        ));
+                false, true,
+            uri));
         var ronda = new Ronda(1, Set.of(jugadorId, jugador2Id));
         return Flux.just(
                 new JuegoCreado(jugadorId),

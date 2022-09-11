@@ -74,7 +74,7 @@ public class GameMaterializeHandle {
     var document = new Document();
     var carta = event.getCarta().value();
     var jugadorId = event.getJugadorId().value();
-    document.put("cartaId", carta.cartaId().value());
+    document.put("cartaId", carta.cartaId());
     document.put("estaOculta", carta.estaOculta());
     document.put("poder", carta.poder());
     document.put("estaHabilitada", carta.estaHabilitada());

@@ -18,53 +18,66 @@ import reactor.core.publisher.Flux;
 
 @Configuration
 public class QueryHandle {
-    private final ReactiveMongoTemplate template;
 
-    public QueryHandle(ReactiveMongoTemplate template) {
-        this.template = template;
-    }
+  private final ReactiveMongoTemplate template;
 
-    @Bean
-    public RouterFunction<ServerResponse> listarJuego() {
-        return RouterFunctions.route(
-                GET("/juego/listar/{id}"),
-                request -> template.find(filterByUId(request.pathVariable("id")), JuegoListViewModel.class, "gameview")
-                        .collectList()
-                        .flatMap(list -> ServerResponse.ok()
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .body(BodyInserters.fromPublisher(Flux.fromIterable(list), JuegoListViewModel.class)))
-        );
-    }
+  public QueryHandle(ReactiveMongoTemplate template) {
+    this.template = template;
+  }
+
+  @Bean
+  public RouterFunction<ServerResponse> listarJuego() {
+    return RouterFunctions.route(
+        GET("/juego/listar/{id}"),
+        request -> template.find(filterByUId(request.pathVariable("id")), JuegoListViewModel.class,
+                "gameview")
+            .collectList()
+            .flatMap(list -> ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(
+                    BodyInserters.fromPublisher(Flux.fromIterable(list), JuegoListViewModel.class)))
+    );
+  }
 
 
-    @Bean
-    public RouterFunction<ServerResponse> mazoPorJugador() {
-        return RouterFunctions.route(
-                GET("/jugador/mazo/{id}"),
-                request -> template.find(filterByUId(request.pathVariable("id")), MazoViewModel.class, "mazoview")
-                        .collectList()
-                        .flatMap(list -> ServerResponse.ok()
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .body(BodyInserters.fromPublisher(Flux.fromIterable(list), MazoViewModel.class)))
-        );
-    }
+  @Bean
+  public RouterFunction<ServerResponse> mazoPorJugador() {
+    return RouterFunctions.route(
+        GET("/mazo/{jugadorId}/{juegoId}"),
+        request -> template.find(filterByJugadorId(request.pathVariable("jugadorId"),
+                    request.pathVariable("juegoId")), MazoViewModel.class,
+                "mazoview")
+            .collectList()
+            .flatMap(list -> ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromPublisher(Flux.fromIterable(list), MazoViewModel.class)))
+    );
+  }
 
-    @Bean
-    public RouterFunction<ServerResponse> getGames(){
-        return RouterFunctions.route(
-            GET("/juegos/"),
-            serverRequest -> template.findAll(JuegoListViewModel.class,"gameview")
-                .collectList()
-                .flatMap(games->ServerResponse.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(BodyInserters.fromPublisher(Flux.fromIterable(games),JuegoListViewModel.class))));
+  @Bean
+  public RouterFunction<ServerResponse> getGames() {
+    return RouterFunctions.route(
+        GET("/juegos/"),
+        serverRequest -> template.findAll(JuegoListViewModel.class, "gameview")
+            .collectList()
+            .flatMap(games -> ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromPublisher(Flux.fromIterable(games),
+                    JuegoListViewModel.class))));
 
-    }
-    private Query filterByUId(String uid) {
-        return new Query(
-                Criteria.where("uid").is(uid)
-        );
-    }
+  }
+
+  private Query filterByUId(String uid) {
+    return new Query(
+        Criteria.where("uid").is(uid)
+    );
+  }
+
+  private Query filterByJugadorId(String jugadorId, String juegoId) {
+    return new Query(
+        Criteria.where("jugadorId").is(jugadorId).and("juegoId").is(juegoId)
+    );
+  }
 
 
 }

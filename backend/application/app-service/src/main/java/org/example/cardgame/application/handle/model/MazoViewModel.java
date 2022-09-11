@@ -8,16 +8,29 @@ import lombok.Data;
 public class MazoViewModel {
     private Integer cantidad;
     private Set<Carta> cartas;
-
+    private String juegoId;
+    private String jugadorId;
    @Data
     public static class Carta {
         private  String cartaId;
-        private  String jugadorId;
         private  Boolean estaOculta;
         private  Boolean estaHabilitada;
         private  Integer poder;
+        private String uri;
 
-        @Override
+       public Carta(String cartaId, Boolean estaOculta, Boolean estaHabilitada, Integer poder,
+           String url) {
+           this.cartaId = cartaId;
+           this.estaOculta = estaOculta;
+           this.estaHabilitada = estaHabilitada;
+           this.poder = poder;
+           this.uri = uri;
+       }
+
+       public Carta() {
+       }
+
+       @Override
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
