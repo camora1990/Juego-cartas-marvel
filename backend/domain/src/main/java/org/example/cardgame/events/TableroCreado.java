@@ -10,8 +10,6 @@ public class TableroCreado extends DomainEvent {
     private final TableroId tableroId;
     private final Set<JugadorId> jugadorIds;
 
-
-
     public TableroCreado(TableroId tableroId, Set<JugadorId> jugadorIds) {
         super("cardgame.tablerocreado");
         this.tableroId = tableroId;
