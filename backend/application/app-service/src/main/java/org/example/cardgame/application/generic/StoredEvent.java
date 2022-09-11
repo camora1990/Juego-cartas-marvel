@@ -1,9 +1,10 @@
 package org.example.cardgame.application.generic;
 
 import co.com.sofka.domain.generic.DomainEvent;
-
 import java.util.Date;
+import lombok.Data;
 
+@Data
 public class StoredEvent {
 
     private String eventBody;
@@ -26,36 +27,6 @@ public class StoredEvent {
                 new Date(),
                 eventSerializer.serialize(domainEvent)
         );
-    }
-
-
-    public String getEventBody() {
-        return eventBody;
-    }
-
-
-    public void setEventBody(String eventBody) {
-        this.eventBody = eventBody;
-    }
-
-
-    public Date getOccurredOn() {
-        return occurredOn;
-    }
-
-
-    public void setOccurredOn(Date occurredOn) {
-        this.occurredOn = occurredOn;
-    }
-
-
-    public String getTypeName() {
-        return typeName;
-    }
-
-
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
     }
 
 

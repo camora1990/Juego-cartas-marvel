@@ -67,12 +67,13 @@ class CrearJuegoUseCaseTest {
                 new CartaMaestra("carta-001","prueba #1"),
                 new CartaMaestra("carta-002","prueba #2"),
                 new CartaMaestra("carta-003","prueba #3"),
-                new CartaMaestra("carta-004","prueba #5"),
+                new CartaMaestra("carta-004","prueba #4"),
+                new CartaMaestra("carta-005","prueba #5"),
                 new CartaMaestra("carta-006","prueba #6"),
                 new CartaMaestra("carta-007","prueba #7"),
                 new CartaMaestra("carta-008","prueba #8"),
                 new CartaMaestra("carta-009","prueba #9"),
-                new CartaMaestra("carta-010","prueba #10")
+            new CartaMaestra("carta-010","prueba #10")
 
         );
     }

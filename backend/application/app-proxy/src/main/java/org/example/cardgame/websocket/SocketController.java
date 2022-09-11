@@ -17,20 +17,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * {
- *     "juegoId": {
- *         "uuid1": Session,
- *         "uuid2": Session,
- *         "uuidN": Session,
- *     }
- * }
- *
- * session[juegoId][uuid]
- *
- */
-
 @Component
 @ServerEndpoint("/retrieve/{correlationId}")
 public class SocketController {

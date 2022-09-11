@@ -38,7 +38,7 @@ public class CrearJuegoUseCase extends UseCaseForCommand<CrearJuegoCommand> {
             crearJuegoCommand.flatMapIterable(comandoCrearJuego ->
                 {
                   if (comandoCrearJuego.getJugadores().size() < MIN_JUGADORES ||
-                      comandoCrearJuego.getJugadores().size() > MIN_JUGADORES) {
+                      comandoCrearJuego.getJugadores().size() > MAX_JUGADORES) {
                     throw new BusinessException(comandoCrearJuego.getJuegoId(),
                         "No se puede crear el juego por que no tiene la cantidad requerida de jugadores [Min "
                             + MIN_JUGADORES + " Max " + MAX_JUGADORES);

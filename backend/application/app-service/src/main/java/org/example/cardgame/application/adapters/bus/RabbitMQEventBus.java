@@ -1,7 +1,6 @@
 package org.example.cardgame.application.adapters.bus;
 
 import co.com.sofka.domain.generic.DomainEvent;
-
 import org.example.cardgame.application.ApplicationConfig;
 import org.example.cardgame.application.GsonEventSerializer;
 import org.example.cardgame.application.generic.EventBus;
