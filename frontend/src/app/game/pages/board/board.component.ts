@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, tap } from 'rxjs';
 import { WebsocketService } from '../../services/websocket.service';
+import { GameService } from '../../services/game.service';
 
 @Component({
   selector: 'app-board',
@@ -12,7 +13,8 @@ export class BoardComponent implements OnInit {
   private gameId!: string;
   constructor(
     private websocketService: WebsocketService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private gameServices: GameService
   ) {}
 
   ngOnInit(): void {
@@ -30,8 +32,19 @@ export class BoardComponent implements OnInit {
           console.log(event);
         },
       });
-    this.websocketService
-      .conect(this.gameId)
-      .subscribe((res) => console.log(res));
+    this.websocketService.conect(this.gameId).subscribe((res) => {
+      console.log(res);
+    });
+  }
+
+  initGame() {
+    this.gameServices.initGame({ juegoId: this.gameId }).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 }

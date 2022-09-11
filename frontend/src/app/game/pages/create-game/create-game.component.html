@@ -1,5 +1,6 @@
 <div class="create-card">
   <!-- <app-nav-bar></app-nav-bar> -->
+  <!-- optionDisabled="disable" -->
   <div class="container">
     <div class="grid flex  m-0 justify-content-center animate__animated animate__fadeIn">
       <div class="col md:col-8 xl:col-6">
@@ -22,7 +23,7 @@
               [listStyle]="{ 'max-height': '250px' }"
               filterPlaceHolder="Search user"
               filterBy="displayName, email"
-              optionDisabled="disable"
+            
             >
               <ng-template let-user pTemplate="item">
                 <div

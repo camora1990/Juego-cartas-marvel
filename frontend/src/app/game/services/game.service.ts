@@ -17,4 +17,9 @@ export class GameService {
   getGames(): Observable<GameModel[]> {
     return this.http.get<GameModel[]>(`${this.BASE_URL}/juegos/`);
   }
+
+  initGame(body: any){
+
+    return this.http.post(`${this.BASE_URL}/juego/iniciar`,body)
+  }
 }

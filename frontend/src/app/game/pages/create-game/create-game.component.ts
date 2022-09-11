@@ -20,7 +20,7 @@ import { WebsocketService } from '../../services/websocket.service';
   templateUrl: './create-game.component.html',
   styleUrls: ['./create-game.component.scss'],
 })
-export class CreateGameComponent implements OnInit, OnDestroy {
+export class CreateGameComponent implements OnInit {
   formUsers: FormGroup;
   private minPlayers: number = 2;
   private maxPlayer: number = 5;
@@ -45,9 +45,8 @@ export class CreateGameComponent implements OnInit, OnDestroy {
       jugadorPrincipalId: this.mainPlayer.uid,
     };
   }
-  ngOnDestroy(): void {
-    this.webSocketService.close();
-  }
+
+
 
   ngOnInit(): void {
     this.userService.getUsers().subscribe({
@@ -59,7 +58,7 @@ export class CreateGameComponent implements OnInit, OnDestroy {
       next: (res) => {
         console.log(res);
       },
-      error: (err) => this.sweetAlertService.errorMessage(),
+      error: (err) => {this.sweetAlertService.errorMessage(), console.log(err)},
       complete: () => {
         console.log('create');
         this.sweetAlertService.successfulMessage();
