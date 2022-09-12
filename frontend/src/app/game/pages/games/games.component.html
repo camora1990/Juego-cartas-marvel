@@ -23,11 +23,9 @@
                 >
               </div>
               <div class="col-4 flex justify-content-center">
-                <a routerLink="/marvel-game/board/{{ item.id }}">
-                  <button class="btn-game w-auto">
-                    <span>Start</span>
-                  </button>
-                </a>
+                <button class="btn-game w-auto" (click)="startGame(item.id)">
+                  <span>Start</span>
+                </button>
               </div>
               <p-divider align="left" class="w-full">
                 <div class="inline-flex align-items-center">

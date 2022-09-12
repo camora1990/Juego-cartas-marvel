@@ -2,6 +2,17 @@
     background-image: url("../../../../assets/musellpage-plus-kit-bg.db26e8ed.jpg");
     background-size: cover;
     background-repeat: no-repeat;
-    height: 100vh;
+    // height: 100vh;
+    min-height: 100vh;
     padding-top: 100px;
+}
+
+.container-image {
+
+    max-height: 200px;
+    img{
+        height: 100%;
+        display: flex;width: 100%;
+        
+    }
 }
