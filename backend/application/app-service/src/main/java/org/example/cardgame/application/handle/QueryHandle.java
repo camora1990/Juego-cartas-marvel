@@ -4,6 +4,7 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 
 import org.example.cardgame.application.handle.model.JuegoListViewModel;
 import org.example.cardgame.application.handle.model.MazoViewModel;
+import org.example.cardgame.application.handle.model.TableroViewModel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
@@ -30,7 +31,7 @@ public class QueryHandle {
   public RouterFunction<ServerResponse> listarJuego() {
     return RouterFunctions.route(
         GET("/juego/listar/{id}"),
-        request -> template.find(filterByUId(request.pathVariable("id")), JuegoListViewModel.class,
+        request -> template.find(filterById(request.pathVariable("id")), JuegoListViewModel.class,
                 "gameview")
             .collectList()
             .flatMap(list -> ServerResponse.ok()
@@ -45,7 +46,7 @@ public class QueryHandle {
   public RouterFunction<ServerResponse> mazoPorJugador() {
     return RouterFunctions.route(
         GET("/mazo/{jugadorId}/{juegoId}"),
-        request -> template.findOne(filterByJugadorId(request.pathVariable("jugadorId"),
+        request -> template.findOne(filterByJugadorIdAndJuegoId(request.pathVariable("jugadorId"),
                     request.pathVariable("juegoId")), MazoViewModel.class,
                 "mazoview")
             .flatMap(list -> ServerResponse.ok()
@@ -67,13 +68,31 @@ public class QueryHandle {
 
   }
 
-  private Query filterByUId(String uid) {
-    return new Query(
-        Criteria.where("uid").is(uid)
+  @Bean
+  public RouterFunction<ServerResponse> getBoardById() {
+    return RouterFunctions.route(
+       GET("/tablero/{juegoId}"),
+        request -> template.findOne(filterById(request.pathVariable("juegoId")
+            ),TableroViewModel.class,"tableroview")
+            .flatMap(board->ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromPublisher(Mono.just(board),TableroViewModel.class)))
     );
   }
 
-  private Query filterByJugadorId(String jugadorId, String juegoId) {
+  private Query filterById(String uid) {
+    return new Query(
+        Criteria.where("_id").is(uid)
+    );
+  }
+
+  private Query filterByJugadorId(String uid) {
+    return new Query(
+        Criteria.where("_id").is(uid)
+    );
+  }
+
+  private Query filterByJugadorIdAndJuegoId(String jugadorId, String juegoId) {
     return new Query(
         Criteria.where("jugadorId").is(jugadorId).and("juegoId").is(juegoId)
     );

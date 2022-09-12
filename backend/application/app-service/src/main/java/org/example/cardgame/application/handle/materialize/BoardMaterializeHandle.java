@@ -20,7 +20,7 @@ public class BoardMaterializeHandle {
 
   private static final String COLLECTION_GAME_VIEW = "gameview";
 
-  private static final String COLLECTION_BOARD_VIEW="tableroview";
+  private static final String COLLECTION_BOARD_VIEW = "tableroview";
 
   private final ReactiveMongoTemplate template;
 
@@ -33,13 +33,15 @@ public class BoardMaterializeHandle {
     var data = new HashMap<>();
     var update = new Update();
 
-    data.put("_id",event.aggregateRootId());
-    data.put("jugadoresIniciales",event.getJugadorIds());
-    data.put("fecha",Instant.now());
-    data.put("ronda",new HashMap<>());
-    data.put("cantidadJugadores",event.getJugadorIds().size());
+    data.put("_id", event.aggregateRootId());
+    data.put("jugadoresIniciales", event.getJugadorIds().stream()
+        .map(Identity::value)
+        .collect(Collectors.toList()));
+    data.put("fecha", Instant.now());
+    data.put("ronda", new HashMap<>());
+    data.put("cantidadJugadores", event.getJugadorIds().size());
     update.set("iniciado", true);
-    update.set("tablero",data);
+    update.set("tablero", data);
     template.updateFirst(getFilterByAggregateId(event), update, COLLECTION_GAME_VIEW)
         .block();
     template.save(data, COLLECTION_BOARD_VIEW).block();
@@ -58,15 +60,19 @@ public class BoardMaterializeHandle {
 
     document.put("jugadores", jugadores);
     document.put("numero", ronda.numero());
-    document.put("iniciada",false);
+    document.put("iniciada", false);
+    document.put("estaIniciada", event.getRonda().value().estaIniciada());
+    document.put("tiempo",event.getTiempo());
 
     gameView.set("fecha", Instant.now());
     gameView.set("tiempo", event.getTiempo());
     gameView.set("ronda", document);
-    gameView.set("tablero.ronda",document);
-    boardView.set("ronda",document);
-    template.updateFirst(getFilterByAggregateId(event),gameView,COLLECTION_GAME_VIEW).block();
-    template.updateFirst(getBoardViewByAggregateId(event),boardView,COLLECTION_BOARD_VIEW).block();
+    gameView.set("tablero.ronda", document);
+    boardView.set("ronda", document);
+
+    template.updateFirst(getFilterByAggregateId(event), gameView, COLLECTION_GAME_VIEW).block();
+    template.updateFirst(getBoardViewByAggregateId(event), boardView, COLLECTION_BOARD_VIEW)
+        .block();
 
 
   }
@@ -77,7 +83,7 @@ public class BoardMaterializeHandle {
     );
   }
 
-  private Query getBoardViewByAggregateId(DomainEvent event){
+  private Query getBoardViewByAggregateId(DomainEvent event) {
     return new Query(
         Criteria.where("_id").is(event.aggregateRootId())
     );

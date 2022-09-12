@@ -8,9 +8,12 @@ import lombok.Data;
 @Data
 public class TableroViewModel {
 
-  private Tablero tablero;
-  private Integer tiempo;
+//  private Tablero tablero;
+
   private Ronda ronda;
+  private Integer cantidadJugadores;
+  private Set<String> jugadoresIniciales;
+
 
 
   @Data
@@ -25,7 +28,7 @@ public class TableroViewModel {
 
   @Data
   public static class Ronda {
-
+    private Integer tiempo;
     private Set<String> jugadores;
     private String numero;
     private Boolean estaIniciada;
