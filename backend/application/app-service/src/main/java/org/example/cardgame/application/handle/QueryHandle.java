@@ -15,6 +15,7 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Configuration
 public class QueryHandle {
@@ -44,13 +45,12 @@ public class QueryHandle {
   public RouterFunction<ServerResponse> mazoPorJugador() {
     return RouterFunctions.route(
         GET("/mazo/{jugadorId}/{juegoId}"),
-        request -> template.find(filterByJugadorId(request.pathVariable("jugadorId"),
+        request -> template.findOne(filterByJugadorId(request.pathVariable("jugadorId"),
                     request.pathVariable("juegoId")), MazoViewModel.class,
                 "mazoview")
-            .collectList()
             .flatMap(list -> ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromPublisher(Flux.fromIterable(list), MazoViewModel.class)))
+                .body(BodyInserters.fromPublisher(Mono.just(list), MazoViewModel.class)))
     );
   }
 
