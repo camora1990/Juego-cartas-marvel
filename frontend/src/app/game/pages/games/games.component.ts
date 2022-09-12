@@ -35,7 +35,7 @@ export class GamesComponent implements OnInit {
   }
 
   startGame(gameId: string) {
-    debugger;
+
     this.gameService.startGame({ juegoId: gameId }).subscribe({
       next: (res) => {
         console.log('the game started successfully');
@@ -45,7 +45,7 @@ export class GamesComponent implements OnInit {
         });
       },
       complete: () => {
-        debugger;
+
         this.router.navigate([`/marvel-game/board/${gameId}`]);
       },
     });

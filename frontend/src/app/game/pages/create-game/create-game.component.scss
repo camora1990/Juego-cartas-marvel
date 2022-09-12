@@ -33,3 +33,12 @@
   border-radius: 50%;
   background-color: gray;
 }
+
+.customProgress .ui-progressbar .ui-progressbar-value{
+  background-color: rgb(185 28 28);
+  color: white;
+}
+
+.p-progressbar .p-progressbar-value {
+  background: rgb(185 28 28) !important;
+}

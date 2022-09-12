@@ -21,14 +21,18 @@ import { WebsocketService } from '../../services/websocket.service';
   styleUrls: ['./create-game.component.scss'],
 })
 export class CreateGameComponent implements OnInit {
-  formUsers: FormGroup;
   private minPlayers: number = 2;
   private maxPlayer: number = 5;
-  users: User[] = [];
   private comandCreateGame: any;
   private gameId: string;
   private mainPlayer: CurrentUser;
 
+  showProgressBar: boolean = false;
+  totalEvents: number = 1;
+  eventsRegister: number = 0;
+  users: User[] = [];
+  formUsers: FormGroup;
+  valueProgressBar: number = 0;
   constructor(
     private userService: UserService,
     private gameService: GameService,
@@ -46,8 +50,6 @@ export class CreateGameComponent implements OnInit {
     };
   }
 
-
-
   ngOnInit(): void {
     this.userService.getUsers().subscribe({
       next: (res) => {
@@ -56,15 +58,30 @@ export class CreateGameComponent implements OnInit {
     });
     this.webSocketService.conect(this.gameId).subscribe({
       next: (res) => {
-        console.log(res);
+        this.showProgressBar = true;
+        this.eventsRegister++;
+        this.eventsRegister <= this.totalEvents &&
+          (this.valueProgressBar =
+            (this.eventsRegister / this.totalEvents) * 100);
+        if (this.eventsRegister == this.totalEvents) {
+          setTimeout(() => {
+            this.valueProgressBar = 100;
+            this.navigateNextPage();
+          }, 2000);
+        }
       },
-      error: (err) => {this.sweetAlertService.errorMessage(), console.log(err)},
+      error: (err) => {
+        this.sweetAlertService.errorMessage(), console.log(err);
+      },
       complete: () => {
         console.log('create');
-        this.sweetAlertService.successfulMessage();
-        this.router.navigate(['/marvel-game/games']);
       },
     });
+  }
+
+  navigateNextPage() {
+    this.sweetAlertService.successfulMessage();
+    this.router.navigate(['/marvel-game/games']);
   }
 
   createFormUsers(): FormGroup {
@@ -94,8 +111,8 @@ export class CreateGameComponent implements OnInit {
   }
 
   createGame() {
-
     const users = this.formUsers.value.user as User[];
+    this.totalEvents += users.length;
 
     const playersCommand = this.generatePlayersCommand(users);
 
@@ -104,12 +121,12 @@ export class CreateGameComponent implements OnInit {
       jugadores: { ...this.comandCreateGame.jugadores, ...playersCommand },
     };
     this.gameService.createGame(this.comandCreateGame).subscribe({
-      next: (res) => console.log(res),
+      next: (res) => {
+        console.log(res);
+      },
       error: (err) => this.sweetAlertService.errorMessage(),
       complete: () => {
         this.disableUser(users);
-        this.sweetAlertService.successfulMessage();
-        this.router.navigate(['/marvel-game/games']);
       },
     });
   }

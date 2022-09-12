@@ -10,6 +10,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { ImageModule } from 'primeng/image';
 import { DividerModule } from 'primeng/divider';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import {ProgressBarModule} from 'primeng/progressbar';
 
 @NgModule({
   declarations: [],
@@ -24,6 +25,7 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
     ImageModule,
     DividerModule,
     ScrollPanelModule,
+    ProgressBarModule
   ],
 })
 export class PrimeNgModule {}

@@ -1,6 +1,4 @@
 <div class="create-card">
-  <!-- <app-nav-bar></app-nav-bar> -->
-  <!-- optionDisabled="disable" -->
   <div class="container">
     <div class="grid flex  m-0 justify-content-center animate__animated animate__fadeIn">
       <div class="col md:col-8 xl:col-6">
@@ -62,6 +60,22 @@
           </form>
         </p-card>
       </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showProgressBar==true"
+  class="absolute top-0 w-full h-full flex justify-content-center align-items-center surface-400 opacity-60"
+>
+  <div class="grid w-full flex justify-content-center relative">
+    <div class="col-12 top-0 md:col-6 absolute opacity-100">
+      <h1 class="text-center opacity-100">
+        wait a moment please, we are creating the game....
+      </h1>
+      <p-progressBar
+        [style]="{ height: '40px' }"
+        [value]="valueProgressBar"
+      ></p-progressBar>
     </div>
   </div>
 </div>
