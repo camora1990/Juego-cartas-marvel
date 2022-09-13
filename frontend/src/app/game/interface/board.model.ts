@@ -2,6 +2,7 @@ export interface Board {
   ronda: Round;
   cantidadJugadores: number;
   jugadoresIniciales: string[];
+  jugadorPrincipalId: String
 }
 
 export interface Round {

@@ -33,6 +33,7 @@ export class CreateGameComponent implements OnInit {
   users: User[] = [];
   formUsers: FormGroup;
   valueProgressBar: number = 0;
+  
   constructor(
     private userService: UserService,
     private gameService: GameService,
@@ -60,9 +61,11 @@ export class CreateGameComponent implements OnInit {
       next: (res) => {
         this.showProgressBar = true;
         this.eventsRegister++;
+
         this.eventsRegister <= this.totalEvents &&
           (this.valueProgressBar =
             (this.eventsRegister / this.totalEvents) * 100);
+
         if (this.eventsRegister == this.totalEvents) {
           setTimeout(() => {
             this.valueProgressBar = 100;

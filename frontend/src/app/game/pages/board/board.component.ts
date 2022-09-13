@@ -18,6 +18,7 @@ export class BoardComponent implements OnInit {
   private userId: string;
   deck: Deck | null = null;
   board: Board | null = null;
+  isMainPlayer: boolean = false;
 
   constructor(
     private websocketService: WebsocketService,
@@ -46,7 +47,7 @@ export class BoardComponent implements OnInit {
       console.log(res);
     });
     this.getDeckPlayer();
-    this.getBoardId()
+    this.getBoardId();
   }
 
   getDeckPlayer() {
@@ -61,12 +62,12 @@ export class BoardComponent implements OnInit {
     this.gameServices.getBoard(this.gameId).subscribe({
       next: (res) => {
         if (res) {
-          this.board = res
-        }else{
-          this.sweetAlertService.errorMessage("Board not found!")
-          this.router.navigate(["/marvel-game/games"])
+          this.isMainPlayer = res.jugadorPrincipalId == this.userId;
+          this.board = res;
+        } else {
+          this.sweetAlertService.errorMessage('Board not found!');
+          this.router.navigate(['/marvel-game/games']);
         }
-
       },
     });
   }
