@@ -31,15 +31,20 @@ public class GameMaterializeHandle {
 
   @EventListener
   public void handleJuegoCreado(JuegoCreado event) {
-    var data = new HashMap<>();
-    data.put("_id", event.aggregateRootId());
-    data.put("fecha", Instant.now());
-    data.put("uid", event.getJugadorPrincipal().value());
-    data.put("iniciado", false);
-    data.put("finalizado", false);
-    data.put("cantidadJugadores", 0);
-    data.put("jugadores", new HashMap<>());
-    template.save(data, COLLECTION_VIEW).block();
+    var game = new HashMap<>();
+    var board = new HashMap<>();
+    board.put("jugadorPrincipalId", event.getJugadorPrincipal().value());
+    board.put("_id", event.aggregateRootId());
+
+    game.put("_id", event.aggregateRootId());
+    game.put("fecha", Instant.now());
+    game.put("uid", event.getJugadorPrincipal().value());
+    game.put("iniciado", false);
+    game.put("finalizado", false);
+    game.put("cantidadJugadores", 0);
+    game.put("jugadores", new HashMap<>());
+    template.save(board, "tableroview").block();
+    template.save(game, COLLECTION_VIEW).block();
   }
 
   @EventListener

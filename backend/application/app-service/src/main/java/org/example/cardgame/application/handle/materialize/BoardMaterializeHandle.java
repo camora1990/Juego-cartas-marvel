@@ -30,21 +30,21 @@ public class BoardMaterializeHandle {
 
   @EventListener
   public void handleTableroCreado(TableroCreado event) {
-    var data = new HashMap<>();
+    var boardView = new Update();
     var update = new Update();
 
-    data.put("_id", event.aggregateRootId());
-    data.put("jugadoresIniciales", event.getJugadorIds().stream()
+
+    boardView.set("jugadoresIniciales", event.getJugadorIds().stream()
         .map(Identity::value)
         .collect(Collectors.toList()));
-    data.put("fecha", Instant.now());
-    data.put("ronda", new HashMap<>());
-    data.put("cantidadJugadores", event.getJugadorIds().size());
+    boardView.set("fecha", Instant.now());
+    boardView.set("ronda", new HashMap<>());
+    boardView.set("cantidadJugadores", event.getJugadorIds().size());
     update.set("iniciado", true);
-    update.set("tablero", data);
+    update.set("tablero", boardView);
     template.updateFirst(getFilterByAggregateId(event), update, COLLECTION_GAME_VIEW)
         .block();
-    template.save(data, COLLECTION_BOARD_VIEW).block();
+    template.updateFirst(getBoardViewByAggregateId(event),boardView, COLLECTION_BOARD_VIEW).block();
   }
 
 

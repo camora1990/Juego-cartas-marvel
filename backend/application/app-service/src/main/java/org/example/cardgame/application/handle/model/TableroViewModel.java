@@ -8,23 +8,13 @@ import lombok.Data;
 @Data
 public class TableroViewModel {
 
-//  private Tablero tablero;
 
   private Ronda ronda;
   private Integer cantidadJugadores;
   private Set<String> jugadoresIniciales;
+  private String jugadorPrincipalId;
+  private Map<String, List<MazoViewModel.Carta>> cartas;
 
-
-
-  @Data
-  public static class Tablero {
-
-    private String id;
-    private Set<String> jugadores;
-    private Boolean habilitado;
-    private Map<String, List<MazoViewModel.Carta>> cartas;
-
-  }
 
   @Data
   public static class Ronda {
