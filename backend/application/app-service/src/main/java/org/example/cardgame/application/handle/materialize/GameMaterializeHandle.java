@@ -4,6 +4,7 @@ import co.com.sofka.domain.generic.DomainEvent;
 import co.com.sofka.domain.generic.Identity;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.bson.Document;
 import org.example.cardgame.events.CartaPuestaEnTablero;
@@ -38,7 +39,7 @@ public class GameMaterializeHandle {
 
     game.put("_id", event.aggregateRootId());
     game.put("fecha", Instant.now());
-    game.put("uid", event.getJugadorPrincipal().value());
+    game.put("jugadorPrincipalId", event.getJugadorPrincipal().value());
     game.put("iniciado", false);
     game.put("finalizado", false);
     game.put("cantidadJugadores", 0);
@@ -51,7 +52,7 @@ public class GameMaterializeHandle {
   public void handleJugadorAgregado(JugadorAgregado event) {
     var data = new Update();
     data.set("fecha", Instant.now());
-    data.set("jugadores." + event.getJugadorId().value(), event.getAlias());
+    data.set("jugadores." + event.getJugadorId().value(), Map.of("jugadorId",event.getJugadorId().value(),"alias",event.getAlias()));
     data.inc("cantidadJugadores");
     template.updateFirst(getFilterByAggregateId(event), data, COLLECTION_VIEW).block();
   }

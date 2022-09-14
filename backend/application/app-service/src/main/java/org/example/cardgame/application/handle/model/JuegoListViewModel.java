@@ -8,9 +8,9 @@ public class JuegoListViewModel {
     private String id;
     private Boolean iniciado;
     private Boolean finalizado;
-    private String uid;
+    private String jugadorPrincipalId;
     private Integer cantidadJugadores;
-    private Map<String, String> jugadores;
+    private Map<String, Jugador> jugadores;
     private Jugador ganador;
 
 

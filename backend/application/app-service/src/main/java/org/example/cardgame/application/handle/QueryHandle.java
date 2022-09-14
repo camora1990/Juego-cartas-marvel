@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
@@ -69,6 +70,19 @@ public class QueryHandle {
   }
 
   @Bean
+  public RouterFunction<ServerResponse> getGamesByPlayer() {
+    return RouterFunctions.route(
+        GET("/juegos/{id}"),
+        serverRequest -> template.find(filterByJugadorId(serverRequest.pathVariable("id")),JuegoListViewModel.class, "gameview")
+            .collectList()
+            .flatMap(games -> ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromPublisher(Flux.fromIterable(games),
+                    JuegoListViewModel.class))));
+
+  }
+
+  @Bean
   public RouterFunction<ServerResponse> getBoardById() {
     return RouterFunctions.route(
        GET("/tablero/{juegoId}"),
@@ -80,13 +94,12 @@ public class QueryHandle {
     );
   }
 
-  private Query filterById(String uid) {
+  private Query filterByJugadorId(String uid) {
     return new Query(
-        Criteria.where("_id").is(uid)
+        Criteria.where("jugadores."+uid+".jugadorId").is(uid)
     );
   }
-
-  private Query filterByJugadorId(String uid) {
+  private Query filterById(String uid) {
     return new Query(
         Criteria.where("_id").is(uid)
     );
@@ -97,6 +110,8 @@ public class QueryHandle {
         Criteria.where("jugadorId").is(jugadorId).and("juegoId").is(juegoId)
     );
   }
+
+
 
 
 }
